@@ -41,26 +41,16 @@ Release version: <%= jira.releaseVersions[0].name -%>
 Jira Tickets
 ---------------------
 <% tickets.all.forEach((ticket) => { %>
-  * [<%= ticket.fields.issuetype.name %>] - [<%= ticket.key %>](<%= jira.baseUrl + '/browse/' + ticket.key %>) <%= ticket.fields.summary -%>
+  * [<%= ticket.fields.issuetype.name %>] - <<%= jira.baseUrl + '/browse/' + ticket.key %> | [<%= ticket.key %>]> <%= ticket.fields.summary -%>
 <% }); -%>
 <% if (!tickets.all.length) {%> ~ None ~ <% } %>
 
-Other Commits
+Other Changes
 ---------------------
 <% commits.noTickets.forEach((commit) => { %>
   * <%= commit.slackUser ? '@'+commit.slackUser.name : commit.authorName %> - [<%= commit.revision.substr(0, 7) %>] - <%= commit.summary -%>
 <% }); -%>
 <% if (!commits.noTickets.length) {%> ~ None ~ <% } %>
-
-Pending Approval
----------------------
-<% tickets.pendingByOwner.forEach((owner) => { %>
-<%= (owner.slackUser) ? '@'+owner.slackUser.name : owner.email %>
-<% owner.tickets.forEach((ticket) => { -%>
-  * <%= jira.baseUrl + '/browse/' + ticket.key %>
-<% }); -%>
-<% }); -%>
-<% if (!tickets.pendingByOwner.length) {%> ~ None. Yay! ~ <% } %>
 `;
 
 function generateReleaseVersionName() {
@@ -154,7 +144,7 @@ async function main() {
     };
 
     const entitles = new Entities.AllHtmlEntities();
-    const changelogMessage = ejs.render(template, data);
+    var changelogMessage = ejs.render(template, data);
 
     console.log('Changelog message entry:');
     console.log(entitles.decode(changelogMessage));
