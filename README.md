@@ -1,5 +1,8 @@
 # Jira Changelog Action
 
+> [!NOTE]
+> We don't use this action to generate changelogs any longer.
+
 Generates a changelog message by looking at Jira issue keys, surrounded by square brackets (i.e. [DEV-123]), in the git commit logs. When it finds one, it associates that Jira issue ticket with that commit and adds it to the output.
 
 ## Inputs
